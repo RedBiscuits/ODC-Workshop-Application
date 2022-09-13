@@ -9,7 +9,7 @@ class ExamsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ExamsCubit()..getExams(),
+      create: (context) => GeneralCubit('lecture')..getExams(),
       child: Scaffold(
         appBar: AppBar(
             backgroundColor: Colors.white,
@@ -26,10 +26,10 @@ class ExamsPage extends StatelessWidget {
               Icon(Icons.filter_alt_sharp, color: Colors.orange),
               SizedBox(width: 10)
             ]),
-        body: BlocConsumer<ExamsCubit, ExamsState>(
+        body: BlocConsumer<GeneralCubit, ExamsState>(
           listener: (context, state) {},
           builder: (context, exams) {
-            ExamsCubit examsCubit = ExamsCubit.get(context);
+            GeneralCubit examsCubit = GeneralCubit.get(context);
             if (examsCubit.isLoading) {
               return Center(
                 child: CircularProgressIndicator(),
@@ -64,8 +64,8 @@ class ExamsPage extends StatelessWidget {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        examsCubit.examsModel.data![index]
-                                                .examSubject ??
+                                        examsCubit.dataModel.data![index]
+                                                .objectSubject ??
                                             "",
                                         style: const TextStyle(
                                             fontWeight: FontWeight.bold,
@@ -105,8 +105,8 @@ class ExamsPage extends StatelessWidget {
                                                   Icons.date_range_outlined,
                                                   color: Colors.black54),
                                               const SizedBox(width: 5),
-                                              Text(examsCubit.examsModel
-                                                      .data![index].examDate ??
+                                              Text(examsCubit.dataModel
+                                                      .data![index].objectDate ??
                                                   "2022-08-18" , style: TextStyle(
                                                 fontWeight: FontWeight.bold
                                               ),)
@@ -131,9 +131,9 @@ class ExamsPage extends StatelessWidget {
                                                   color: Colors.green),
                                               SizedBox(width: 5),
                                               Text(examsCubit
-                                                      .examsModel
+                                                      .dataModel
                                                       .data![index]
-                                                      .examStartTime ??
+                                                      .objectStartTime ??
                                                   "12:00 pm", style: TextStyle(
                                                   fontWeight: FontWeight.bold))
                                             ],
@@ -157,9 +157,9 @@ class ExamsPage extends StatelessWidget {
                                                   color: Colors.red),
                                               SizedBox(width: 5),
                                               Text(examsCubit
-                                                      .examsModel
+                                                      .dataModel
                                                       .data![index]
-                                                      .examEndTime ??
+                                                      .objectEndTime ??
                                                   "2:00 pm", style: TextStyle(
                                                   fontWeight: FontWeight.bold))
                                             ],
