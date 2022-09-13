@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:login/ui/screens/login/login.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+
+import '../../../utils/constants.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -34,7 +37,7 @@ class _RegisterState extends State<Register> {
                     text: const TextSpan(
                       text: "Orange",
                       style: TextStyle(
-                        color: Colors.orangeAccent,
+                        color: appColor,
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                       ),
@@ -111,8 +114,8 @@ class _RegisterState extends State<Register> {
                           height: MediaQuery.of(context).size.height / 20,
                           decoration: BoxDecoration(
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(8)),
-                              border: Border.all(color: Colors.orange)),
+                                BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 40)),
+                              border: Border.all(color: appColor)),
                           child: DropdownButton<String>(
                             underline: SizedBox(),
                             alignment: Alignment.center,
@@ -151,7 +154,7 @@ class _RegisterState extends State<Register> {
                           decoration: BoxDecoration(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(8)),
-                              border: Border.all(color: Colors.orange)),
+                              border: Border.all(color: appColor)),
                           child: DropdownButton<String>(
                             underline: SizedBox(),
                             alignment: Alignment.center,
@@ -159,7 +162,7 @@ class _RegisterState extends State<Register> {
                             value: universityDropdownValue,
                             icon: const Icon(Icons.arrow_drop_down),
                             elevation: 16,
-                            style: const TextStyle(color: Colors.red),
+                            style: const TextStyle(color: appColor),
                             onChanged: (String? value) {
                               setState(() {
                                 universityDropdownValue = value!;
@@ -199,7 +202,7 @@ class _RegisterState extends State<Register> {
                           0),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(8)),
-                          border: Border.all(color: Colors.orange)),
+                          border: Border.all(color: appColor)),
                       child: DropdownButton<String>(
                         underline: SizedBox(),
                         isExpanded: true,
@@ -207,7 +210,7 @@ class _RegisterState extends State<Register> {
                         value: universityDropdownValue,
                         icon: const Icon(Icons.arrow_drop_down),
                         elevation: 16,
-                        style: const TextStyle(color: Colors.red),
+                        style: const TextStyle(color: appColor),
                         onChanged: (String? value) {
                           setState(() {
                             universityDropdownValue = value!;
@@ -232,7 +235,7 @@ class _RegisterState extends State<Register> {
                   height: 50,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        primary: Colors.red,
+                        primary: appColor,
                         textStyle: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 18)),
                     onPressed: () {},
@@ -251,14 +254,17 @@ class _RegisterState extends State<Register> {
                   width: MediaQuery.of(context).size.width,
                   height: 50,
                   decoration: BoxDecoration(
-                      border: Border.all(color: Colors.red, width: 2)),
+                      border: Border.all(color: appColor, width: 2)),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         primary: Colors.white,
-                        onPrimary: Colors.red,
+                        onPrimary: appColor,
                         textStyle: const TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 18)),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pop(context);
+
+                    },
                     child: Text("Login"),
                   ),
                 ),
@@ -302,7 +308,7 @@ class _RegisterState extends State<Register> {
               ? IconButton(
                   icon: Icon(
                     suffixIcon,
-                    color: Colors.red,
+                    color: appColor,
                   ),
                   onPressed: function,
                 )

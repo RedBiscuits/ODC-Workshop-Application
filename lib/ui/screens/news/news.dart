@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../utils/constants.dart';
+
 class News extends StatelessWidget {
   const News({Key? key}) : super(key: key);
 
@@ -39,7 +41,7 @@ class News extends StatelessWidget {
                         Container(
                           margin: EdgeInsets.only(top: 10,right: 10),
                           decoration: BoxDecoration(
-                              color: Colors.orange,
+                              color: appColor,
                               borderRadius: BorderRadius.circular(11)
                           ),
                           child: IntrinsicHeight(
@@ -75,7 +77,7 @@ class News extends StatelessWidget {
                           Text(
                             "Orange",
                             style: TextStyle(
-                                color: Colors.orange,
+                                color: appColor,
                                 fontSize: 45,
                                 fontWeight: FontWeight.w600),
                           ),

@@ -13,24 +13,21 @@ part 'exams_state.dart';
 class GeneralCubit extends Cubit<ExamsState> {
   String? type;
   late GeneralModel dataModel;
-  var isLoading = true;
   static GeneralCubit get(context) => BlocProvider.of(context);
-  GeneralCubit(this.type) : super(ExamsInitial());
+  GeneralCubit(this.type) : super(ObjectInitial());
 
   void getExams() async {
-    emit(ExamsGetData());
+    emit(ObjectGetData());
     dataModel =  GeneralModel(type!);
-    DioHelper.getData(url: examsEndPoint, token: token).then((value) {
+    DioHelper.getData(url: examsEndPoint, token: token , type: type!).then((value ) {
       if (value.statusCode == 200) {
-        dataModel = GeneralModel.fromJson(value.data);
-        isLoading = false;
-        print(value.data);
-        emit(ExamsGetData());
+        dataModel = GeneralModel.fromJson(value.data , type!);
+        print(dataModel.data![0].objectSubject);
       } else {
         print(value.statusCode);
       }
     });
-    emit(ExamsGetData());
+    emit(ObjectSuccessful());
 
   }
 }

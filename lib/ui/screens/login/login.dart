@@ -1,127 +1,161 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:login/ui/screens/login/login_cubit.dart';
+import 'package:login/ui/screens/register/register.dart';
+
+import '../../../utils/constants.dart';
+import '../home/home.dart';
 
 class Login extends StatelessWidget {
-  const Login({Key? key}) : super(key: key);
+  Login({Key? key}) : super(key: key);
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  GlobalKey<FormState> formKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: MediaQuery(
-        data: MediaQueryData(),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                  margin: EdgeInsets.only(top: 30),
-                  child: Center(
-                    child: RichText(
-                      text: const TextSpan(
-                        text: "Orange",
-                        style: TextStyle(color: Colors.red, fontSize: 40),
-                        children: <TextSpan>[
-                          TextSpan(
-                              text: ' Digital Center ',
-                              style: TextStyle(color: Colors.black)),
-                        ],
+      appBar: AppBar(
+        title: Center(
+          child: RichText(
+            text: const TextSpan(
+              text: "Orange",
+              style: TextStyle(color: appColor, fontSize: 22 , fontWeight: FontWeight.bold),
+              children: <TextSpan>[
+                TextSpan(
+                    text: ' Digital Center ',
+                    style: TextStyle(color: Colors.black , fontWeight: FontWeight.bold)),
+              ],
+            ),
+          ),
+        ),
+        backgroundColor: Colors.white,
+        elevation: 0,
+      ),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(MediaQuery.of(context).size.width / 20),
+        child: Form(
+          key: formKey,
+          child: BlocConsumer<LoginCubit, LoginState>(
+            listener: (context, state) {
+              if (state is LoginSuccessful) {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const Home()));
+              } else if (state is LoginError) {
+                Fluttertoast.showToast(
+                    msg: "Bad Credentials try again.",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.CENTER,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: Colors.red,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+              }
+            },
+            builder: (context, state) {
+              LoginCubit loginCubit = LoginCubit.get(context);
+              return 
+                MediaQuery(
+                data: const MediaQueryData(),
+                child: Column(
+                  children: [
+                    SizedBox(height: MediaQuery.of(context).size.width / 10),
+                    const Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Text('Login',
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold)),
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.width / 20),
+                    defaultFormField(
+                      controller: emailController,
+                      type: TextInputType.text,
+                      label: "E-mail",
+                      isPassword: false,
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.width / 20),
+                    defaultFormField(
+                        controller: passwordController,
+                        type: TextInputType.text,
+                        label: "Password",
+                        isPassword: true,
+                        suffixIcon: Icons.remove_red_eye_sharp),
+                    SizedBox(height: MediaQuery.of(context).size.width / 20),
+                    const Align(
+                        alignment: Alignment.bottomLeft,
+                        child: Text(
+                          "Forgot Password",
+                          style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: appColor),
+                        )),
+                    SizedBox(height: MediaQuery.of(context).size.width / 20),
+                    (state is LoginLoading)
+                        ? LoadingAnimationWidget.prograssiveDots(
+                            color: appColor, size: 50)
+                        : ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width / 40)
+                                ),
+                                primary: appColor,
+                                fixedSize: Size(
+                                    MediaQuery.of(context).size.width / 1.1,
+                                    MediaQuery.of(context).size.height / 16),
+                                textStyle: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 18)),
+                            onPressed: () {
+                              if (formKey.currentState!.validate()) {
+                                loginCubit.loginUser(
+                                    emailController.text.toString(),
+                                    passwordController.text.toString());
+                              }
+                            },
+                            child: Text("Login"),
+                          ),
+                    SizedBox(height: MediaQuery.of(context).size.width / 20),
+                    Row(children: const <Widget>[
+                      Expanded(child: Divider(height: 2, color: Colors.black)),
+                      Text("  OR  "),
+                      Expanded(child: Divider(height: 2, color: Colors.black)),
+                    ]),
+                    SizedBox(height: MediaQuery.of(context).size.width / 20),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width / 40),
+                          border: Border.all(color: appColor, width: 2)),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width / 40)
+                          ),
+                            fixedSize: Size(
+                                MediaQuery.of(context).size.width / 1.1,
+                                MediaQuery.of(context).size.height / 16),
+                            primary: Colors.white,
+                            onPrimary: appColor,
+                            textStyle: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 18)),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Register()));
+                        },
+                        child: Text("Sign Up"),
                       ),
                     ),
-                  )),
-              Container(
-                margin: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height / 10,
-                    left: MediaQuery.of(context).size.width / 60,
-                    bottom: MediaQuery.of(context).size.height / 100),
-                child: const Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Text('Login',
-                      textAlign: TextAlign.start,
-                      style: TextStyle(color: Colors.black, fontSize: 30)),
+                  ],
                 ),
-              ),
-              Container(
-                  margin: EdgeInsets.fromLTRB(
-                      MediaQuery.of(context).size.width / 60,
-                      MediaQuery.of(context).size.height / 60,
-                      MediaQuery.of(context).size.width / 60,
-                      MediaQuery.of(context).size.height / 40),
-                  child: defaultFormField(
-                    controller: TextEditingController(),
-                    type: TextInputType.text,
-                    label: "E-mail",
-                    isPassword: false,
-                  )),
-              Container(
-                  margin: EdgeInsets.fromLTRB(
-                      MediaQuery.of(context).size.width / 60,
-                      MediaQuery.of(context).size.height / 150,
-                      MediaQuery.of(context).size.width / 60,
-                      MediaQuery.of(context).size.height / 150),
-                  child: defaultFormField(
-                      controller: TextEditingController(),
-                      type: TextInputType.text,
-                      label: "Password",
-                      isPassword: true,
-                      suffixIcon: Icons.remove_red_eye_sharp)),
-              Container(
-                margin: EdgeInsets.fromLTRB(
-                    MediaQuery.of(context).size.width / 60,
-                    MediaQuery.of(context).size.height / 150,
-                    MediaQuery.of(context).size.width / 60,
-                    MediaQuery.of(context).size.height / 18),
-                child: const Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Text(
-                      "Forgot Password",
-                      style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.red),
-                    )),
-              ),
-              Container(
-                margin: EdgeInsets.fromLTRB(
-                    MediaQuery.of(context).size.width / 60,
-                    MediaQuery.of(context).size.height / 150,
-                    MediaQuery.of(context).size.width / 60,
-                    MediaQuery.of(context).size.height / 150),
-                width: MediaQuery.of(context).size.width,
-                height: 50,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      primary: Colors.red,
-                      textStyle:
-                      TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                  onPressed: () {},
-                  child: Text("Login"),
-                ),
-              ),
-              Container(
-                  margin:
-                  EdgeInsets.all(MediaQuery.of(context).size.width / 60),
-                  child: Row(children: const <Widget>[
-                    Expanded(child: Divider(height: 2, color: Colors.black)),
-                    Text("  OR  "),
-                    Expanded(child: Divider(height: 2, color: Colors.black)),
-                  ])),
-              Container(
-                margin: EdgeInsets.all(MediaQuery.of(context).size.width / 60),
-                width: MediaQuery.of(context).size.width,
-                height: 50,
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.red, width: 2)),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      primary: Colors.white,
-                      onPrimary: Colors.red,
-                      textStyle: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 18)),
-                  onPressed: () {},
-                  child: Text("Sign Up"),
-                ),
-              ),
-            ],
+              );
+            },
           ),
         ),
       ),
@@ -148,22 +182,24 @@ Widget defaultFormField({
       onFieldSubmitted: onSubmit,
       onChanged: onChange,
       onTap: onTap,
+      validator: (value) {
+        if (value!.isEmpty) {
+          return "Can't be empty";
+        } else if (value.length < 8) {
+          return "Can't be less than 8";
+        }
+      },
       obscureText: isPassword,
-      //  validator: validator,
+
       decoration: InputDecoration(
-        contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-        // control your hints text size
         labelText: label,
-        prefixIcon: Icon(
-          prefixIcon,
-        ),
         suffixIcon: suffixIcon != null
             ? IconButton(
-          icon: Icon(
-            suffixIcon,
-          ),
-          onPressed: function,
-        )
+                icon: Icon(
+                  suffixIcon,
+                ),
+                onPressed: function,
+              )
             : null,
         border: const OutlineInputBorder(),
       ),
