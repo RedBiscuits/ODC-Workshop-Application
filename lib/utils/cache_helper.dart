@@ -4,7 +4,7 @@ class SharedPreferencesEditor {
   static SharedPreferences ? sharedPreferences;
 
   static Future makeInstance() async {
-    sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences ??= await SharedPreferences.getInstance();
   }
 
   static Future putString({required String key , required String value}) async {

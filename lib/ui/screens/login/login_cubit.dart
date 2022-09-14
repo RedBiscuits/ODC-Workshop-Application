@@ -7,8 +7,6 @@ import 'package:login/data/network/end_points.dart';
 import 'package:login/utils/cache_helper.dart';
 import 'package:meta/meta.dart';
 
-import '../../../utils/constants.dart';
-
 part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
@@ -29,7 +27,6 @@ class LoginCubit extends Cubit<LoginState> {
         emit(LoginSuccessful());
         SharedPreferencesEditor.putString(
             key: "token", value: loginModel!.data!.accessToken!.toString());
-        token = loginModel!.data!.accessToken!.toString();
       } else {
         print(value.statusCode);
         emit(BadCredentialsLogin());

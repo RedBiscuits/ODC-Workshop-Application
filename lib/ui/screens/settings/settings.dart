@@ -39,7 +39,7 @@ class Settings extends StatelessWidget {
                 return Container(
                   height: 50,
                   child: ListTile(
-                    title: Text('Entry ${entries[index]}'),
+                    title: Text('${entries[index]}'),
                     trailing: Icon(Icons.arrow_forward_ios_outlined),
                   ),
                 );

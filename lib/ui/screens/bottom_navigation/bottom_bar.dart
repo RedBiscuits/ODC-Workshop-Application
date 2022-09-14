@@ -3,15 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:login/ui/screens/bottom_navigation/bottom_cubit.dart';
 import 'package:login/ui/screens/components/bottom_navigation_item.dart';
+import 'package:login/utils/cache_helper.dart';
 
+import '../../../utils/constants.dart';
 import 'bottom_state.dart';
 
 
 class BottomBar extends StatelessWidget {
   const BottomBar({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+    token = SharedPreferencesEditor.getString(key: "token");
     return BlocConsumer<NavigationCubit,NavigationStates>(
       listener: (context,state) {} ,
       builder: (context,state) {
