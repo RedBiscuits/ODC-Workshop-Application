@@ -4,16 +4,18 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:login/ui/screens/login/login_cubit.dart';
 import 'package:login/ui/screens/register/register.dart';
+import 'package:login/utils/cache_helper.dart';
 
 import '../../../utils/constants.dart';
+import '../bottom_navigation/bottom_bar.dart';
 import '../components/text_field.dart';
-import '../home/home.dart';
 
 class Login extends StatelessWidget {
   Login({Key? key}) : super(key: key);
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey();
+  LoginCubit? loginCubit;
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +25,13 @@ class Login extends StatelessWidget {
           child: RichText(
             text: const TextSpan(
               text: "Orange",
-              style: TextStyle(color: appColor, fontSize: 22 , fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  color: appColor, fontSize: 22, fontWeight: FontWeight.bold),
               children: <TextSpan>[
                 TextSpan(
                     text: ' Digital Center ',
-                    style: TextStyle(color: Colors.black , fontWeight: FontWeight.bold)),
+                    style: TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.bold)),
               ],
             ),
           ),
@@ -41,24 +45,22 @@ class Login extends StatelessWidget {
           key: formKey,
           child: BlocConsumer<LoginCubit, LoginState>(
             listener: (context, state) {
-              if (state is LoginSuccessful) {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const Home()));
-              } else if (state is LoginError) {
+              if (state is LoginSuccessful && token != null) {
+                Fluttertoast.showToast(msg: "Login Successfully!!" , backgroundColor: Colors.green , gravity: ToastGravity.TOP);
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => const BottomBar()));
+              } else if (state is LoginError || state is BadCredentialsLogin) {
                 Fluttertoast.showToast(
-                    msg: "Bad Credentials try again.",
-                    toastLength: Toast.LENGTH_SHORT,
-                    gravity: ToastGravity.CENTER,
-                    timeInSecForIosWeb: 1,
-                    backgroundColor: Colors.red,
-                    textColor: Colors.white,
-                    fontSize: 16.0);
+                  msg: "Bad Credentials try again.",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.TOP,
+                  backgroundColor: Colors.red,
+                );
               }
             },
             builder: (context, state) {
-              LoginCubit loginCubit = LoginCubit.get(context);
-              return 
-                MediaQuery(
+              loginCubit = LoginCubit.get(context);
+              return MediaQuery(
                 data: const MediaQueryData(),
                 child: Column(
                   children: [
@@ -100,23 +102,28 @@ class Login extends StatelessWidget {
                     SizedBox(height: MediaQuery.of(context).size.width / 20),
                     (state is LoginLoading)
                         ? LoadingAnimationWidget.prograssiveDots(
-                            color: appColor, size: 50)
+                            color: appColor,
+                            size: MediaQuery.of(context).size.width / 20)
                         : ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width / 40)
-                                ),
+                                    borderRadius: BorderRadius.circular(
+                                        MediaQuery.of(context).size.width /
+                                            40)),
                                 primary: appColor,
                                 fixedSize: Size(
                                     MediaQuery.of(context).size.width / 1.1,
                                     MediaQuery.of(context).size.height / 16),
-                                textStyle: TextStyle(
+                                textStyle: const TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 18)),
                             onPressed: () {
                               if (formKey.currentState!.validate()) {
-                                loginCubit.loginUser(
-                                    emailController.text.toString(),
-                                    passwordController.text.toString());
+                                loginCubit!
+                                    .loginUser(emailController.text.toString(),
+                                        passwordController.text.toString())
+                                    .then((value) {
+                                  Fluttertoast.showToast(msg: value.toString());
+                                });
                               }
                             },
                             child: Text("Login"),
@@ -130,13 +137,14 @@ class Login extends StatelessWidget {
                     SizedBox(height: MediaQuery.of(context).size.width / 20),
                     Container(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width / 40),
+                          borderRadius: BorderRadius.circular(
+                              MediaQuery.of(context).size.width / 40),
                           border: Border.all(color: appColor, width: 2)),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width / 40)
-                          ),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    MediaQuery.of(context).size.width / 40)),
                             fixedSize: Size(
                                 MediaQuery.of(context).size.width / 1.1,
                                 MediaQuery.of(context).size.height / 16),

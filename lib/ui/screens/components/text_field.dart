@@ -24,7 +24,7 @@ Widget defaultFormField({
       onChanged: onChange,
       onTap: onTap,
       minLines: minLines?? 1,
-      maxLines: 10,
+      maxLines: isPassword? 1 : 10,
       validator: (value) {
         if (value!.isEmpty) {
           return "Can't be empty";

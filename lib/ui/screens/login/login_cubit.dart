@@ -1,37 +1,42 @@
 import 'package:bloc/bloc.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:login/data/models/login_model.dart';
 import 'package:login/data/network/dio_helper.dart';
 import 'package:login/data/network/end_points.dart';
+import 'package:login/utils/cache_helper.dart';
 import 'package:meta/meta.dart';
+
+import '../../../utils/constants.dart';
 
 part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
   LoginCubit() : super(LoginInitial());
-  static LoginCubit get(context) =>BlocProvider.of(context);
+
+  static LoginCubit get(context) => BlocProvider.of(context);
   LoginModel? loginModel;
 
   Future loginUser(String email, String password) async {
     emit(LoginLoading());
-    DioHelper.postData(
+    await DioHelper.postData(
         url: loginEndPoint,
         data: {'email': email, 'password': password}).then((value) {
       if (value.statusCode == 200) {
         loginModel = LoginModel.fromJson(value.data);
+        print(value.data);
+        print(loginModel!.data!.accessToken.toString());
         emit(LoginSuccessful());
-      } else if (value.statusCode == 400) {
-        emit(BadCredentialsLogin());
-      }else{
+        SharedPreferencesEditor.putString(
+            key: "token", value: loginModel!.data!.accessToken!.toString());
+        token = loginModel!.data!.accessToken!.toString();
+      } else {
         print(value.statusCode);
         emit(BadCredentialsLogin());
       }
-    }).catchError((onError){
+    }).catchError((onError) {
       emit(LoginError());
     });
-    emit(LoginInitial());
+    emit(LoginSuccessful());
   }
-
 }
