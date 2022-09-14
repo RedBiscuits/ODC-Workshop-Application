@@ -17,14 +17,19 @@ class Notes extends StatelessWidget {
           elevation: 2,
           child: Icon(Icons.add),
           onPressed: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => new AddNote()));
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute<void>(
+                    builder: (BuildContext
+                    context) =>
+                     AddNote()));
           }),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
         leading: GestureDetector(
             onTap: () {
+
               Navigator.pop(context);
             },
             child: const Icon(Icons.arrow_back_ios, color: Colors.black)),
@@ -34,6 +39,7 @@ class Notes extends StatelessWidget {
       ),
       body: BlocConsumer<NotesCubit, NotesState>(
         listener: (context, state) {
+
           // TODO: implement listener
         },
         builder: (context, state) {
@@ -46,7 +52,7 @@ class Notes extends StatelessWidget {
                   ),
                 )
               : (notesCubit.notes.isEmpty)
-                  ? Center(
+                  ? const Center(
                       child: Text(
                         'There\'s No Data To Show',
                         style: TextStyle(fontSize: 18),
@@ -73,4 +79,5 @@ class Notes extends StatelessWidget {
       ),
     );
   }
+
 }

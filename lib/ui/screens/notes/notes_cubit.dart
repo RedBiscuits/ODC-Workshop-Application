@@ -28,4 +28,20 @@ class NotesCubit extends Cubit<NotesState> {
       emit(NotesLoaded());
     });
   }
+
+  Future refreshData()async{
+    emit(NotesLoading());
+    NotesDatabaseHelper.getNotes().then((value) {
+      notes = [];
+      for (Map<String, dynamic> cat in value) {
+        notes.add(Note(
+            id: cat['id'],
+            title: cat['title'],
+            description: cat['description'],
+            date: cat['date']));
+      }
+      emit(NotesChanged());
+    });
+  }
 }
+

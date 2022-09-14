@@ -15,7 +15,7 @@ const lectureEndPoint = 'lectures';
 const userSectionsEndPoint = "user/student/sections";
 const sectionEndPoint = 'sections';
 
-const examsEndPoint = 'data';
+const examsEndPoint = 'exams';
 const userExamsEndPoint = "user/student/data";
 
 

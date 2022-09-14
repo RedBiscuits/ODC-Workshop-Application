@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:login/ui/screens/add_note/add_note_cubit.dart';
+import 'package:login/ui/screens/notes/notes.dart';
 import 'package:login/ui/screens/notes/notes_cubit.dart';
 
 import '../../../utils/constants.dart';
@@ -25,11 +26,14 @@ class AddNote extends StatelessWidget {
             child: const Icon(Icons.arrow_back_ios, color: Colors.black)),
         centerTitle: true,
         title: const Text('Add Note',
-            style: TextStyle(fontSize: 26,color: Colors.black, fontWeight: FontWeight.bold)),
+            style: TextStyle(
+                fontSize: 26,
+                color: Colors.black,
+                fontWeight: FontWeight.bold)),
       ),
       body: BlocConsumer<AddNoteCubit, AddNoteState>(
         listener: (context, state) {
-          if(state is NoteAdded){
+          if (state is NoteAdded) {
             AddNoteCubit.get(context).getTime();
           }
         },
@@ -114,9 +118,14 @@ class AddNote extends StatelessWidget {
                                                 date: dateController.text,
                                                 description:
                                                     descriptionController.text);
-                                            Navigator.pop(context);
+                                            NotesCubit().refreshData();
+                                            Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute<void>(
+                                                    builder: (BuildContext
+                                                            context) =>
+                                                        const Notes()));
                                           }
-
                                         },
                                         child: Row(
                                           children: [

@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 
 class GeneralModel {
   String? type;
@@ -6,15 +5,15 @@ class GeneralModel {
   String? message;
   List<Data>? data = [];
 
-  GeneralModel(this.type);
+  GeneralModel();
 
-  GeneralModel.fromJson(Map<String, dynamic> json , String type2) {
+  GeneralModel.fromJson(Map<String, dynamic> json ) {
     code = json['code'];
     message = json['message'];
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(Data.fromJson(v , type2));
+        data!.add(Data.fromJson(v));
       });
     }
   }
@@ -43,12 +42,12 @@ class Data {
         this.objectStartTime,
         this.objectEndTime});
 
-  Data.fromJson(Map<String, dynamic> json, String type) {
+  Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    objectSubject = json['${type}Subject'];
-    objectDate = json['${type}Date'];
-    objectStartTime = json['${type}StartTime'];
-    objectEndTime = json['${type}EndTime'];
+    objectSubject = json['examSubject'];
+    objectDate = json['examDate'];
+    objectStartTime = json['examStartTime'];
+    objectEndTime = json['examEndTime'];
   }
 
   Map<String, dynamic> toJson(String type) {
