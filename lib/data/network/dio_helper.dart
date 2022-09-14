@@ -26,7 +26,7 @@ class DioHelper {
   //This Function to call API and get Some Data based on url(End Points) and Headers needed in API to get the Specific Data.
   static Future<Response> getData({
     required String url,
-    required String type,
+    String? type,
     Map<String, dynamic>? queryParameters,
     ProgressCallback? onReceiveProgress,
     String? token,
