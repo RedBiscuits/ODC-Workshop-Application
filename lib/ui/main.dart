@@ -20,7 +20,7 @@ Future<void> main() async{
         BlocProvider(create: (context) => NotesCubit()..getNotes()),
         BlocProvider(create: (context) => AddNoteCubit()..getTime()),
         BlocProvider(create: (context) => RegisterCubit()..getData()),
-        BlocProvider(create: (context) => GeneralCubit()..getData()),
+        BlocProvider(create: (context) => GeneralCubit()..getExams()),
 
       ],
       child: MaterialApp(debugShowCheckedModeBanner: false, home: Home())));

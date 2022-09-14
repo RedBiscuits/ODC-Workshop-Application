@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:login/ui/screens/notes/notes.dart';
 
 import '../../../utils/constants.dart';
-import '../exams/data.dart';
+import '../exams/exams.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);

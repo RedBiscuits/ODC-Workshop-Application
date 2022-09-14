@@ -3,11 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../../../utils/constants.dart';
-import 'data_state.dart';
 import 'exams_cubit.dart';
+import 'exams_state.dart';
 
 class ObjectPage extends StatelessWidget {
-  String entry = lecture;
   ObjectPage({Key? key} ) : super(key: key);
 
   @override
@@ -21,10 +20,10 @@ class ObjectPage extends StatelessWidget {
                 Navigator.pop(context);
               } ,
               child: const Icon(Icons.arrow_back_ios, color: appColor)),
-          title: Center(
+          title: const Center(
             child: Text(
-                '${entry[0].toUpperCase() + entry.substring(1, entry.length)}s',
-                style: const TextStyle(
+                'Exams',
+                style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 22,
                     color: Colors.black)),

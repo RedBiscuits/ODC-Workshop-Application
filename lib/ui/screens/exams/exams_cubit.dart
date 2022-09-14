@@ -7,26 +7,28 @@ import 'package:login/utils/constants.dart';
 import 'package:meta/meta.dart';
 
 import '../../../data/network/end_points.dart';
-import 'data_state.dart';
+import 'exams_state.dart';
 
 
 class GeneralCubit extends Cubit<DataState> {
-  late GeneralModel dataModel;
+  late ExamsModel dataModel;
   static GeneralCubit get(context) => BlocProvider.of(context);
   GeneralCubit() : super(InitialState());
 
-  void getData() async {
+  void getExams() async {
     emit(GettingData());
-    dataModel =  GeneralModel();
-    DioHelper.getData(url: examsEndPoint, token: token).then((value) {
+    dataModel =  ExamsModel();
+    DioHelper.getData(url: examsEndPoint, token: token).then((value ) {
       if (value.statusCode == 200) {
-        dataModel = GeneralModel.fromJson(value.data);
+        dataModel = ExamsModel.fromJson(value.data);
         print(dataModel.data![0].objectSubject);
         emit(RetrievalSuccessful());
       } else {
         print(value.statusCode);
         emit(DataRetrievalFail());
+
       }
     });
+
   }
 }

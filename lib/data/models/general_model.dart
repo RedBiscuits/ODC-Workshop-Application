@@ -1,13 +1,13 @@
 
-class GeneralModel {
+class ExamsModel {
   String? type;
   String? code;
   String? message;
   List<Data>? data = [];
 
-  GeneralModel();
+  ExamsModel();
 
-  GeneralModel.fromJson(Map<String, dynamic> json ) {
+  ExamsModel.fromJson(Map<String, dynamic> json ) {
     code = json['code'];
     message = json['message'];
     if (json['data'] != null) {
@@ -23,7 +23,7 @@ class GeneralModel {
     data['code'] = this.code;
     data['message'] = this.message;
     if (this.data != null) {
-      data['data'] = this.data!.map((v) => v.toJson(type!)).toList();
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -50,13 +50,13 @@ class Data {
     objectEndTime = json['examEndTime'];
   }
 
-  Map<String, dynamic> toJson(String type) {
+  Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    data['${type}Subject'] = this.objectSubject;
-    data['${type}Date'] = this.objectDate;
-    data['${type}StartTime'] = this.objectStartTime;
-    data['${type}EndTime'] = this.objectEndTime;
+    data['examSubject'] = this.objectSubject;
+    data['examDate'] = this.objectDate;
+    data['examStartTime'] = this.objectStartTime;
+    data['examEndTime'] = this.objectEndTime;
     return data;
   }
 }
