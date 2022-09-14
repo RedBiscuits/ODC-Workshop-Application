@@ -1,4 +1,4 @@
-part of 'exams_cubit.dart';
+part of 'data_cubit.dart';
 
 @immutable
 abstract class ExamsState {}

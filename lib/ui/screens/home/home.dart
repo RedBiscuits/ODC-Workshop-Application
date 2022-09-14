@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:login/ui/screens/exams/exams.dart';
+import 'package:login/ui/screens/exams/data.dart';
 
 import '../../../utils/constants.dart';
 

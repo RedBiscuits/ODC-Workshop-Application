@@ -14,7 +14,7 @@ Future<void> main() async{
   runApp( MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => LoginCubit()),
-        BlocProvider(create: (context) => RegisterCubit()),
+        BlocProvider(create: (context) => RegisterCubit()..getData()),
 
       ],
       child: MaterialApp(debugShowCheckedModeBanner: false, home: Login())));

@@ -58,15 +58,15 @@ class Register extends StatelessWidget {
         },
         builder: (context, state) {
           RegisterCubit registerCubit = RegisterCubit.get(context);
-          registerCubit.getGrades();
-          registerCubit.getUniversities();
           universityList = registerCubit.universityList;
           gradeList = registerCubit.gradeList;
-          return (registerCubit.counter != 2)
-              ? LoadingAnimationWidget.prograssiveDots(
-                  color: appColor,
-                  size: MediaQuery.of(context).size.width / 10,
-                )
+          return (state is GettingData || state is RegisterInitial)
+              ? Center(
+                child: LoadingAnimationWidget.prograssiveDots(
+                    color: appColor,
+                    size: MediaQuery.of(context).size.width / 10,
+                  ),
+              )
               : MediaQuery(
                   data: const MediaQueryData(),
                   child: Container(
@@ -164,12 +164,15 @@ class Register extends StatelessWidget {
                                       child: DropdownButton<String>(
                                         underline: SizedBox(),
                                         alignment: Alignment.center,
-                                        value: genderDropdownValue,
+                                        value: registerCubit.genderDropDownItem,
                                         icon: const Icon(Icons.arrow_drop_down),
                                         elevation: 16,
                                         style: const TextStyle(
                                             color: Colors.black),
-                                        onChanged: (String? value) {},
+                                        onChanged: (String? value) {
+                                          registerCubit.setgenderDropdown(value);
+
+                                        },
                                         items: genderList
                                             .map<DropdownMenuItem<String>>(
                                                 (String value) {
@@ -212,12 +215,15 @@ class Register extends StatelessWidget {
                                         underline: SizedBox(),
                                         alignment: Alignment.center,
                                         isExpanded: true,
-                                        value: universityList.first,
+
+                                        value: registerCubit.universityDropDownItem,
                                         icon: const Icon(Icons.arrow_drop_down),
                                         elevation: 16,
                                         style: const TextStyle(color: appColor),
-                                        onChanged: (String? value) {},
-                                        items: universityList
+                                        onChanged: (String? value) {
+                                          registerCubit.setUniversityDropdown(value) ;
+                                        },
+                                        items: registerCubit.universityList
                                             .map<DropdownMenuItem<String>>(
                                                 (String value) {
                                           return DropdownMenuItem<String>(
@@ -228,6 +234,7 @@ class Register extends StatelessWidget {
                                                         TextAlign.center)),
                                           );
                                         }).toList(),
+
                                       ),
                                     ),
                                   ],
@@ -246,6 +253,7 @@ class Register extends StatelessWidget {
                                       MediaQuery.of(context).size.height / 100,
                                 ),
                                 Container(
+
                                   height:
                                       MediaQuery.of(context).size.height / 20,
                                   width: MediaQuery.of(context).size.height / 5,
@@ -257,16 +265,22 @@ class Register extends StatelessWidget {
                                     underline: SizedBox(),
                                     isExpanded: true,
                                     alignment: Alignment.center,
-                                    value: gradeList.first,
+                                    // value: gradeList.first,
                                     icon: const Icon(Icons.arrow_drop_down),
                                     elevation: 16,
                                     style: const TextStyle(color: appColor),
-                                    onChanged: (String? value) {},
-                                    items: gradeList
+                                    onChanged: (String? value) {
+                                      registerCubit.setGradeDropdown(value);
+                                    },
+                                    value: registerCubit.gradeDropDownItem,
+                                    items: registerCubit.gradeList
                                         .map<DropdownMenuItem<String>>(
                                             (String value) {
                                       return DropdownMenuItem<String>(
                                         value: value,
+                                        onTap: (){
+                                          registerCubit.gradeDropDownItem = value;
+                                        },
                                         child: SizedBox(
                                             child: Text(value,
                                                 textAlign: TextAlign.center)),
@@ -307,15 +321,20 @@ class Register extends StatelessWidget {
                                                 "Make sure passwords are the same.");
                                       } else if (registerFormKey.currentState!
                                           .validate()) {
-                                        registerCubit.signUp(
-                                            email: emailController.text,
-                                            password: passwordController.text,
-                                            name: nameController.text,
-                                            gender: 'm',
-                                            phoneNumber:
-                                                phoneNumberController.text,
-                                            universityId: '1',
-                                            gradeId: 'grade 2');
+                                        try{
+                                          registerCubit.signUp(
+                                              email: emailController.text,
+                                              password: passwordController.text,
+                                              name: nameController.text,
+                                              gender: (registerCubit.gradeDropDownItem == null)? 'm' : registerCubit.gradeDropDownItem![0],
+                                              phoneNumber:
+                                                  phoneNumberController.text,
+                                              universityId:'1',
+                                              gradeId: '4');
+                                        }catch(error){
+                                          Fluttertoast.showToast(msg: "Email is already registered.");
+                                          registerCubit.submitFail();
+                                        }
                                       } else {
                                         Fluttertoast.showToast(
                                             msg: "Something wrong happened");

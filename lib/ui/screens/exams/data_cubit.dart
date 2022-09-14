@@ -8,7 +8,7 @@ import 'package:meta/meta.dart';
 
 import '../../../data/network/end_points.dart';
 
-part 'exams_state.dart';
+part 'data_state.dart';
 
 class GeneralCubit extends Cubit<ExamsState> {
   String? type;

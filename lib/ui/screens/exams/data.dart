@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../../../utils/constants.dart';
-import 'exams_cubit.dart';
+import 'data_cubit.dart';
 
 class ObjectPage extends StatelessWidget {
   String entry;
@@ -11,9 +11,8 @@ class ObjectPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String destination = entry;
     return BlocProvider(
-      create: (context) => GeneralCubit(destination)..getExams(),
+      create: (context) => GeneralCubit(entry)..getExams(),
       child: Scaffold(
         appBar: AppBar(
             backgroundColor: Colors.white,
@@ -25,7 +24,7 @@ class ObjectPage extends StatelessWidget {
                 child: const Icon(Icons.arrow_back_ios, color: appColor)),
             title: Center(
               child: Text(
-                  '${destination[0].toUpperCase() + destination.substring(1, destination.length)}s',
+                  '${entry[0].toUpperCase() + entry.substring(1, entry.length)}s',
                   style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 22,
