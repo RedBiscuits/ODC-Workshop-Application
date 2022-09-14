@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:login/ui/screens/exams/data.dart';
+import 'package:login/ui/screens/notes/notes.dart';
 
 import '../../../utils/constants.dart';
+import '../data/data.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -113,7 +114,7 @@ class Home extends StatelessWidget {
       case 'Midterms' :  return ObjectPage(entry: exams);
       case 'Finals' :  return ObjectPage(entry: exams);
       case 'Events' : return null;
-      case 'Notes' : return null;
+      case 'Notes' : return const Notes();
       default : return null;
     }
 

@@ -5,13 +5,13 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:login/ui/screens/register/register_cubit.dart';
 
 import '../../../utils/constants.dart';
+import '../components/sized_box.dart';
+import '../components/text_field.dart';
 
 class Register extends StatelessWidget {
   Register({Key? key}) : super(key: key);
 
   static List<String> genderList = ["Male", "Female", "Engineer"];
-  static List<String> universityList = [];
-  static List<String> gradeList = [];
 
   var genderDropdownValue = genderList.first;
 
@@ -58,8 +58,6 @@ class Register extends StatelessWidget {
         },
         builder: (context, state) {
           RegisterCubit registerCubit = RegisterCubit.get(context);
-          universityList = registerCubit.universityList;
-          gradeList = registerCubit.gradeList;
           return (state is GettingData || state is RegisterInitial)
               ? Center(
                 child: LoadingAnimationWidget.prograssiveDots(
@@ -384,50 +382,6 @@ class Register extends StatelessWidget {
     );
   }
 
-  Widget defaultFormField({
-    required TextEditingController controller,
-    required TextInputType type,
-    bool isPassword = false,
-    String? label,
-    IconData? prefixIcon,
-    IconData? suffixIcon,
-    onSubmit,
-    onChange,
-    onTap,
-    // required validator,
-    function,
-  }) =>
-      TextFormField(
-        controller: controller,
-        keyboardType: type,
-        onFieldSubmitted: onSubmit,
-        onChanged: onChange,
-        onTap: onTap,
-        validator: (value) {
-          if (value!.isEmpty) {
-            return "Can't be empty";
-          } else if (value.length < 8) {
-            return "Can't be less than 8";
-          }
-        },
-        obscureText: isPassword,
-        decoration: InputDecoration(
-          labelText: label,
-          suffixIcon: suffixIcon != null
-              ? IconButton(
-                  icon: Icon(
-                    suffixIcon,
-                  ),
-                  onPressed: function,
-                )
-              : null,
-          border: const OutlineInputBorder(),
-        ),
-      );
 
-  Widget getSizedBox(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height / 50,
-    );
-  }
+
 }

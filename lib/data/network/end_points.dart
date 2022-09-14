@@ -15,8 +15,8 @@ const lectureEndPoint = 'lectures';
 const userSectionsEndPoint = "user/student/sections";
 const sectionEndPoint = 'sections';
 
-const examsEndPoint = 'exams';
-const userExamsEndPoint = "user/student/exams";
+const examsEndPoint = 'data';
+const userExamsEndPoint = "user/student/data";
 
 
 // End Points for News Screen

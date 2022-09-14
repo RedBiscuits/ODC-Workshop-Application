@@ -6,6 +6,7 @@ import 'package:login/ui/screens/login/login_cubit.dart';
 import 'package:login/ui/screens/register/register.dart';
 
 import '../../../utils/constants.dart';
+import '../components/text_field.dart';
 import '../home/home.dart';
 
 class Login extends StatelessWidget {
@@ -162,45 +163,3 @@ class Login extends StatelessWidget {
     );
   }
 }
-
-Widget defaultFormField({
-  required TextEditingController controller,
-  required TextInputType type,
-  bool isPassword = false,
-  String? label,
-  IconData? prefixIcon,
-  IconData? suffixIcon,
-  onSubmit,
-  onChange,
-  onTap,
-  // required validator,
-  function,
-}) =>
-    TextFormField(
-      controller: controller,
-      keyboardType: type,
-      onFieldSubmitted: onSubmit,
-      onChanged: onChange,
-      onTap: onTap,
-      validator: (value) {
-        if (value!.isEmpty) {
-          return "Can't be empty";
-        } else if (value.length < 8) {
-          return "Can't be less than 8";
-        }
-      },
-      obscureText: isPassword,
-
-      decoration: InputDecoration(
-        labelText: label,
-        suffixIcon: suffixIcon != null
-            ? IconButton(
-                icon: Icon(
-                  suffixIcon,
-                ),
-                onPressed: function,
-              )
-            : null,
-        border: const OutlineInputBorder(),
-      ),
-    );
