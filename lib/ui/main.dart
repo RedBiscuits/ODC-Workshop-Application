@@ -3,6 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:login/data/network/dio_helper.dart';
+import 'package:login/ui/lectures/lectures_cubit.dart';
 import 'package:login/ui/screens/add_note/add_note_cubit.dart';
 import 'package:login/ui/screens/exams/exams_cubit.dart';
 import 'package:login/ui/screens/home/home.dart';
@@ -20,7 +21,8 @@ Future<void> main() async{
         BlocProvider(create: (context) => NotesCubit()..getNotes()),
         BlocProvider(create: (context) => AddNoteCubit()..getTime()),
         BlocProvider(create: (context) => RegisterCubit()..getData()),
-        BlocProvider(create: (context) => GeneralCubit()..getExams()),
+        BlocProvider(create: (context) => ExamsCubit()..getExams()),
+        BlocProvider(create: (context) => LecturesCubit()..getLectures()),
 
       ],
       child: MaterialApp(debugShowCheckedModeBanner: false, home: Home())));
