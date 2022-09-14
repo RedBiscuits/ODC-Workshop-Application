@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:login/ui/screens/components/loading.dart';
 
 import '../../../utils/constants.dart';
 import 'lectures_cubit.dart';
@@ -37,12 +38,7 @@ class Lectures extends StatelessWidget {
         builder: (context, state) {
           LecturesCubit lecturesCubit = LecturesCubit.get(context);
           if (!(state is GotLecturesSuccessfully)) {
-            return  Center(
-              child: LoadingAnimationWidget.prograssiveDots(
-                color: appColor,
-                size : MediaQuery.of(context).size.width / 10,
-              ),
-            );
+            return  loading(context);
           } else {
             return ListView.builder(itemBuilder: (context, index) {
               return MediaQuery(

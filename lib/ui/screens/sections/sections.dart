@@ -4,11 +4,11 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:login/ui/screens/components/loading.dart';
 
 import '../../../utils/constants.dart';
-import 'exams_cubit.dart';
-import 'exams_state.dart';
+import 'sections_cubit.dart';
+import 'sections_state.dart';
 
-class Exams extends StatelessWidget {
-  Exams({Key? key} ) : super(key: key);
+class Sections extends StatelessWidget {
+  Sections({Key? key} ) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class Exams extends StatelessWidget {
               child: const Icon(Icons.arrow_back_ios, color: appColor)),
           title: const Center(
             child: Text(
-                'Exams',
+                'Sections',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 22,
@@ -33,11 +33,11 @@ class Exams extends StatelessWidget {
             Icon(Icons.filter_alt_sharp, color: appColor),
             SizedBox(width: 10)
           ]),
-      body: BlocConsumer<ExamsCubit, DataState>(
+      body: BlocConsumer<SectionsCubit, SectionsState>(
         listener: (context, state) {},
         builder: (context, state) {
-          ExamsCubit generalCubit = ExamsCubit.get(context);
-          if (!(state is RetrievalSuccessful)) {
+          SectionsCubit sectionsCubit = SectionsCubit.get(context);
+          if (!(state is GotSectionsSuccessfully)) {
             return  loading(context);
           } else {
             return ListView.builder(itemBuilder: (context, index) {
@@ -72,8 +72,8 @@ class Exams extends StatelessWidget {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          generalCubit.dataModel.data![index]
-                                                  .examSubject ??
+                                          sectionsCubit.dataModel.data![index]
+                                                  .sectionSubject ??
                                               "",
                                           style: const TextStyle(
                                               fontWeight: FontWeight.bold,
@@ -101,7 +101,7 @@ class Exams extends StatelessWidget {
                                               CrossAxisAlignment.start,
                                           children: [
                                             const Text(
-                                              "Exam Date",
+                                              "Section Date",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 16,
@@ -114,12 +114,12 @@ class Exams extends StatelessWidget {
                                                     color: Colors.black54),
                                                 const SizedBox(width: 5),
                                                 Text(
-                                                  generalCubit
+                                                  sectionsCubit
                                                           .dataModel
                                                           .data![index]
-                                                          .examDate ??
+                                                          .sectionDate ??
                                                       "2022-08-18",
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold),
                                                 )
@@ -140,14 +140,14 @@ class Exams extends StatelessWidget {
                                             ),
                                             Row(
                                               children: [
-                                                Icon(Icons.watch_later,
+                                                const Icon(Icons.watch_later,
                                                     color: Colors.green),
                                                 SizedBox(width: 5),
                                                 Text(
-                                                    generalCubit
+                                                    sectionsCubit
                                                             .dataModel
                                                             .data![index]
-                                                            .examStartTime ??
+                                                            .sectionStartTime ??
                                                         "12:00 pm",
                                                     style: TextStyle(
                                                         fontWeight:
@@ -173,10 +173,10 @@ class Exams extends StatelessWidget {
                                                     color: Colors.red),
                                                 SizedBox(width: 5),
                                                 Text(
-                                                    generalCubit
+                                                    sectionsCubit
                                                             .dataModel
                                                             .data![index]
-                                                            .examEndTime ??
+                                                            .sectionEndTime ??
                                                         "2:00 pm",
                                                     style: TextStyle(
                                                         fontWeight:

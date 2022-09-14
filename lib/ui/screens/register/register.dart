@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:login/ui/screens/components/loading.dart';
 import 'package:login/ui/screens/register/register_cubit.dart';
 
 import '../../../utils/constants.dart';
@@ -59,12 +60,7 @@ class Register extends StatelessWidget {
         builder: (context, state) {
           RegisterCubit registerCubit = RegisterCubit.get(context);
           return (state is GettingData || state is RegisterInitial)
-              ? Center(
-                child: LoadingAnimationWidget.prograssiveDots(
-                    color: appColor,
-                    size: MediaQuery.of(context).size.width / 10,
-                  ),
-              )
+              ? loading(context)
               : MediaQuery(
                   data: const MediaQueryData(),
                   child: Container(
