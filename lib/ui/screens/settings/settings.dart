@@ -83,7 +83,7 @@ class Settings extends StatelessWidget {
         break;
       case 'Log out':
         SharedPreferencesEditor.cleaCache();
-        Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Login()));
         break;
 
     }
