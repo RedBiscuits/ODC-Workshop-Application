@@ -4,6 +4,7 @@ import 'package:login/ui/screens/settings/faq/faq.dart';
 import 'package:login/ui/screens/settings/partneres/partners.dart';
 import 'package:login/ui/screens/settings/support/support_screen.dart';
 import 'package:login/ui/screens/settings/terms/terms.dart';
+import 'package:login/utils/cache_helper.dart';
 
 class Settings extends StatelessWidget {
   const Settings({Key? key}) : super(key: key);
@@ -81,6 +82,7 @@ class Settings extends StatelessWidget {
         Navigator.push(context, MaterialPageRoute(builder: (context) => Support()));
         break;
       case 'Log out':
+        SharedPreferencesEditor.cleaCache();
         Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
         break;
 

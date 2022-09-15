@@ -23,32 +23,45 @@ class RegisterCubit extends Cubit<RegisterState> {
   String? gradeDropDownItem = null;
   String? universityDropDownItem = null;
 
+  bool obsecurePasswordText = true;
+  bool obsecureConfirmationText = true;
+
   Future getData() async {
-    emit(GettingData());
+    print("erroe");
+
     DioHelper.getData(url: universityEndPoint).then((value) {
+      emit(GettingUniversityData());
+      print(value.statusCode.toString());
       if (value.statusCode == 200) {
         universityModel = UniversityModel.fromJson(value.data);
         for (int i = 0; i < universityModel!.data!.length; i++) {
           universityList.add(universityModel!.data![i].name!);
         }
-        emit(RegisterDataLoading());
+        emit(GotUniversityData());
       } else {
         print(value.statusCode);
-        emit(RegisterGetDataFail());
       }
+      print(value.statusCode);
     });
+  }
+
+  Future getDataGrade() async {
+    print("erroe");
     DioHelper.getData(url: gradeEndPoint).then((value) {
-      if (value.statusCode == 200) {
+      print(value.statusCode.toString());
+      emit(GettingGradeData());
+      if (value.data['code'] == 'Success') {
         gradeModel = GradeModel.fromJson(value.data);
+
         for (int i = 0; i < gradeModel!.data!.length; i++) {
           gradeList.add(gradeModel!.data![i].grade!);
         }
-        emit(RegisterGotData());
+        emit(GotGradeData());
       } else {
         print(value.statusCode);
-        emit(RegisterGetDataFail());
       }
     });
+    emit(RegisterGotData());
   }
 
   RegisterModel? registerModel;
@@ -66,17 +79,17 @@ class RegisterCubit extends Cubit<RegisterState> {
       "email": email,
       "name": name,
       "password": password,
-      'gender': gender,
+      'gender': (gender=='male')? 'm':'f',
       'phoneNumber': phoneNumber,
-      'universityId': universityId,
-      'gradeId': gradeId,
+      'universityId': 1,
+      'gradeId': 4,
       'roleId': 2
     };
     DioHelper.postData(url: registerEndPoint, data: data).then((value) {
       registerModel = RegisterModel.fromJson(value.data);
-      if (registerModel!.code == 'Success') {
+      if (value.statusCode == 200) {
         emit(RegisterSuccessful());
-      } else if (registerModel!.code == 'ValidationError') {
+      } else if (value.statusCode == 401 || value.statusCode == 400) {
         emit(RegisterValidationError());
       } else {
         emit(RegisterError());
@@ -86,19 +99,26 @@ class RegisterCubit extends Cubit<RegisterState> {
 
   void setUniversityDropdown(String? value) {
     universityDropDownItem = value;
-    emit(DataChanged());
+    emit(UniversityDataChanged());
   }
 
   void setGradeDropdown(String? value) {
     gradeDropDownItem = value;
-    emit(DataChanged());
-  }
-  void setgenderDropdown(String? value) {
-    genderDropDownItem = value;
-    emit(DataChanged());
+    emit(GradeDataChanged());
   }
 
-  void submitFail(){
-    emit(RegisterValidationError());
+  void setgenderDropdown(String? value) {
+    genderDropDownItem = value;
+    emit(GenderDataChanged());
+  }
+
+  void reversePasswordObsecurity() {
+    obsecurePasswordText = !obsecurePasswordText;
+    emit(VisibilityChanged());
+  }
+
+  void reverseConfirmationObsecurity() {
+    obsecureConfirmationText = !obsecureConfirmationText;
+    emit(VisibilityConfirmationChanged());
   }
 }

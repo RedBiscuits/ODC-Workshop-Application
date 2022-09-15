@@ -15,4 +15,8 @@ class SharedPreferencesEditor {
     return sharedPreferences?.getString(key);
   }
 
+  static void cleaCache(){
+    sharedPreferences!.clear();
+  }
+
 }

@@ -59,7 +59,7 @@ class Register extends StatelessWidget {
         },
         builder: (context, state) {
           RegisterCubit registerCubit = RegisterCubit.get(context);
-          return (state is GettingData || state is RegisterInitial)
+          return (registerCubit.gradeModel == null && registerCubit.universityModel == null )
               ? loading(context)
               : MediaQuery(
                   data: const MediaQueryData(),
@@ -107,14 +107,20 @@ class Register extends StatelessWidget {
                                 controller: passwordController,
                                 type: TextInputType.text,
                                 label: "Password",
-                                isPassword: true,
+                                isPassword: registerCubit.obsecureConfirmationText,
+                                function: (){
+                                  registerCubit.reverseConfirmationObsecurity();
+                                },
                                 suffixIcon: Icons.remove_red_eye_sharp),
                             getSizedBox(context),
                             defaultFormField(
                                 controller: passwordConfirmationController,
                                 type: TextInputType.text,
                                 label: "Password",
-                                isPassword: true,
+                                function: (){
+                                  registerCubit.reversePasswordObsecurity();
+                                },
+                                isPassword: registerCubit.obsecurePasswordText,
                                 suffixIcon: Icons.remove_red_eye_sharp),
                             getSizedBox(context),
                             defaultFormField(
@@ -334,7 +340,6 @@ class Register extends StatelessWidget {
                                           Fluttertoast.showToast(
                                               msg:
                                                   "Email is already registered.");
-                                          registerCubit.submitFail();
                                         }
                                       } else {
                                         Fluttertoast.showToast(

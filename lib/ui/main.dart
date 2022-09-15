@@ -28,7 +28,7 @@ Future<void> main() async {
         BlocProvider(create: (context) => LoginCubit()),
         BlocProvider(create: (context) => NotesCubit()..getNotes()),
         BlocProvider(create: (context) => AddNoteCubit()..getTime()),
-        BlocProvider(create: (context) => RegisterCubit()..getData()),
+        BlocProvider(create: (context) => RegisterCubit()..getData()..getDataGrade()),
         BlocProvider(create: (context) => ExamsCubit()..getExams()),
         BlocProvider(create: (context) => LecturesCubit()..getLectures()),
         BlocProvider(create: (context) => SectionsCubit()..getSections()),
