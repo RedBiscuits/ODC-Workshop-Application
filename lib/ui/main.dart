@@ -1,4 +1,5 @@
-import 'package:bloc/bloc.dart';
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:login/data/network/dio_helper.dart';
@@ -7,13 +8,16 @@ import 'package:login/ui/screens/bottom_navigation/bottom_cubit.dart';
 import 'package:login/ui/screens/exams/exams_cubit.dart';
 import 'package:login/ui/screens/lectures/lectures_cubit.dart';
 import 'package:login/ui/screens/login/login_cubit.dart';
+import 'package:login/ui/screens/news/news_cubit.dart';
 import 'package:login/ui/screens/notes/notes_cubit.dart';
 import 'package:login/ui/screens/register/register_cubit.dart';
 import 'package:login/ui/screens/sections/sections_cubit.dart';
-import 'package:login/ui/screens/splalsh/splash.dart';
+import 'package:login/ui/screens/settings/faq/faq.dart';
+import 'package:login/ui/screens/settings/faq/faq_cubit.dart';
+import 'package:login/ui/screens/settings/terms/terms.dart';
+import 'package:login/ui/screens/settings/terms/terms_cubit.dart';
+import 'package:login/ui/screens/splash/splash.dart';
 import 'package:login/ui/view_model/observers/general_observer.dart';
-
-import '../utils/cache_helper.dart';
 
 Future<void> main() async {
   await DioHelper.init();
@@ -29,8 +33,11 @@ Future<void> main() async {
         BlocProvider(create: (context) => LecturesCubit()..getLectures()),
         BlocProvider(create: (context) => SectionsCubit()..getSections()),
         BlocProvider(create: (context) => NavigationCubit()),
+        BlocProvider(create: (context) => NewsCubit()..getNewsData()),
+        BlocProvider(create: (context) => FaqCubit()..getFaQs()),
+        BlocProvider(create: (context) => TermsCubit()..getTerms()),
       ],
-      child: const MaterialApp(
+      child:  const MaterialApp(
           debugShowCheckedModeBanner: false,
           home: SplashScreen())));
 }

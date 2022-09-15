@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:login/ui/screens/add_note/add_note_cubit.dart';
+import 'package:login/ui/screens/components/input_decoration.dart';
 import 'package:login/ui/screens/notes/notes.dart';
 import 'package:login/ui/screens/notes/notes_cubit.dart';
 
@@ -72,7 +73,7 @@ class AddNote extends StatelessWidget {
                                       MediaQuery.of(context).size.height / 100),
                             ),
                             defaultFormField(
-                              decoration: decoration("Title", context),
+                              decoration: decoration(label: "Title",context:  context,color: Colors.blue, borders: 0),
                               controller: titleController =
                                   TextEditingController(),
                               type: TextInputType.text,
@@ -80,7 +81,7 @@ class AddNote extends StatelessWidget {
                             ),
                             getSizedBox(context),
                             defaultFormField(
-                              decoration: decoration("Date", context),
+                              decoration: decoration(label: "Date", context: context ,color: Colors.blue , borders: 0 ),
                               controller: dateController,
                               type: TextInputType.text,
                               isPassword: false,
@@ -88,7 +89,7 @@ class AddNote extends StatelessWidget {
                             getSizedBox(context),
                             defaultFormField(
                               minLines: 7,
-                              decoration: decoration("Description", context),
+                              decoration: decoration(label: "Description", context: context,color: Colors.blue ,borders:  0 ),
                               controller: descriptionController =
                                   TextEditingController(),
                               type: TextInputType.text,
@@ -145,22 +146,4 @@ class AddNote extends StatelessWidget {
     );
   }
 
-  InputDecoration decoration(String label, BuildContext context) {
-    return InputDecoration(
-      labelText: label,
-      focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: appColor, width: 1.5),
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(MediaQuery.of(context).size.width / 20),
-              bottomRight:
-                  Radius.circular(MediaQuery.of(context).size.width / 20))),
-      focusColor: appColor,
-      enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(width: 1.5, color: Colors.blue),
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(MediaQuery.of(context).size.width / 20),
-              bottomRight:
-                  Radius.circular(MediaQuery.of(context).size.width / 20))),
-    );
-  }
 }

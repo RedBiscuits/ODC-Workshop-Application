@@ -51,9 +51,9 @@ class Register extends StatelessWidget {
           if (state is RegisterSuccessful) {
             Fluttertoast.showToast(msg: "Registered successfully.");
             Navigator.pop(context);
-          } else if(state is RegisterValidationError){
+          } else if (state is RegisterValidationError) {
             Fluttertoast.showToast(msg: "Email is already registered.");
-          }else if(state is RegisterError){
+          } else if (state is RegisterError) {
             Fluttertoast.showToast(msg: "Connection error.");
           }
         },
@@ -98,7 +98,7 @@ class Register extends StatelessWidget {
                             getSizedBox(context),
                             defaultFormField(
                               controller: emailController,
-                              type: TextInputType.text,
+                              type: TextInputType.emailAddress,
                               label: "E-mail",
                               isPassword: false,
                             ),
@@ -164,8 +164,8 @@ class Register extends StatelessWidget {
                                         style: const TextStyle(
                                             color: Colors.black),
                                         onChanged: (String? value) {
-                                          registerCubit.setgenderDropdown(value);
-
+                                          registerCubit
+                                              .setgenderDropdown(value);
                                         },
                                         items: genderList
                                             .map<DropdownMenuItem<String>>(
@@ -209,13 +209,14 @@ class Register extends StatelessWidget {
                                         underline: SizedBox(),
                                         alignment: Alignment.center,
                                         isExpanded: true,
-
-                                        value: registerCubit.universityDropDownItem,
+                                        value: registerCubit
+                                            .universityDropDownItem,
                                         icon: const Icon(Icons.arrow_drop_down),
                                         elevation: 16,
                                         style: const TextStyle(color: appColor),
                                         onChanged: (String? value) {
-                                          registerCubit.setUniversityDropdown(value) ;
+                                          registerCubit
+                                              .setUniversityDropdown(value);
                                         },
                                         items: registerCubit.universityList
                                             .map<DropdownMenuItem<String>>(
@@ -228,7 +229,6 @@ class Register extends StatelessWidget {
                                                         TextAlign.center)),
                                           );
                                         }).toList(),
-
                                       ),
                                     ),
                                   ],
@@ -247,7 +247,6 @@ class Register extends StatelessWidget {
                                       MediaQuery.of(context).size.height / 100,
                                 ),
                                 Container(
-
                                   height:
                                       MediaQuery.of(context).size.height / 20,
                                   width: MediaQuery.of(context).size.height / 5,
@@ -272,8 +271,9 @@ class Register extends StatelessWidget {
                                             (String value) {
                                       return DropdownMenuItem<String>(
                                         value: value,
-                                        onTap: (){
-                                          registerCubit.gradeDropDownItem = value;
+                                        onTap: () {
+                                          registerCubit.gradeDropDownItem =
+                                              value;
                                         },
                                         child: SizedBox(
                                             child: Text(value,
@@ -315,18 +315,25 @@ class Register extends StatelessWidget {
                                                 "Make sure passwords are the same.");
                                       } else if (registerFormKey.currentState!
                                           .validate()) {
-                                        try{
+                                        try {
                                           registerCubit.signUp(
                                               email: emailController.text,
                                               password: passwordController.text,
                                               name: nameController.text,
-                                              gender: (registerCubit.gradeDropDownItem == null)? 'm' : registerCubit.gradeDropDownItem![0],
+                                              gender: (registerCubit
+                                                          .gradeDropDownItem ==
+                                                      null)
+                                                  ? 'm'
+                                                  : registerCubit
+                                                      .gradeDropDownItem![0],
                                               phoneNumber:
                                                   phoneNumberController.text,
-                                              universityId:'1',
+                                              universityId: '1',
                                               gradeId: '4');
-                                        }catch(error){
-                                          Fluttertoast.showToast(msg: "Email is already registered.");
+                                        } catch (error) {
+                                          Fluttertoast.showToast(
+                                              msg:
+                                                  "Email is already registered.");
                                           registerCubit.submitFail();
                                         }
                                       } else {
@@ -377,7 +384,4 @@ class Register extends StatelessWidget {
       ),
     );
   }
-
-
-
 }

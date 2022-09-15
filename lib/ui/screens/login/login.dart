@@ -77,7 +77,7 @@ class Login extends StatelessWidget {
                     SizedBox(height: MediaQuery.of(context).size.width / 20),
                     defaultFormField(
                       controller: emailController,
-                      type: TextInputType.text,
+                      type: TextInputType.emailAddress,
                       label: "E-mail",
                       isPassword: false,
                     ),

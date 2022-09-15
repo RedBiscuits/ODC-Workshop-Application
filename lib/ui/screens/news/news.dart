@@ -1,111 +1,160 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:login/ui/screens/news/news_state.dart';
 
-import '../../../utils/constants.dart';
+import 'news_cubit.dart';
 
 class News extends StatelessWidget {
-  const News({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          children: [
-            const Center(
-              child: Text(
-                "News",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 25,
-                    fontWeight: FontWeight.w600),
-              ),
-            ),
-            Center(
-              child: Card(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)
-                ),
-                color: Colors.grey[400],
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return BlocConsumer<NewsCubit, NewsState>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          var myCubit = NewsCubit.get(context);
+          return Scaffold(
+            body: (state is! getNewsDataSuccess)
+                ? SizedBox()
+                : Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
                       children: [
-                        const Text("  ODCs",
+                        Center(
+                          child: Text(
+                            "News",
                             style: TextStyle(
-                                color: Colors.white,
+                                color: Colors.black,
                                 fontSize: 25,
-                                fontWeight: FontWeight.w600)),
-                        Container(
-                          margin: EdgeInsets.only(top: 10,right: 10),
-                          decoration: BoxDecoration(
-                              color: appColor,
-                              borderRadius: BorderRadius.circular(11)
+                                fontWeight: FontWeight.w600),
                           ),
-                          child: IntrinsicHeight(
-                            child: Row(
-                              children: [
-                                Container(
-                                  child: IconButton(
-                                      onPressed: () {},
-                                      icon: const Icon(Icons.share_outlined,color: Colors.white,)),
-                                ),
-                                const VerticalDivider(
-                                  indent: 7,
-                                  endIndent: 7,
-                                  color: Colors.white,
-                                  thickness: 1,
-                                ),
-                                Container(
-                                  child: IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(Icons.copy_rounded,color: Colors.white,),
+                        ),
+                        ListView.builder(
+                          shrinkWrap: true,
+                          itemCount:
+                              NewsCubit.get(context).newsModel!.data!.length,
+                          itemBuilder: (BuildContext context, int index) =>
+                              Center(
+                            child: Card(
+                              elevation: 20,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                              child: Stack(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    child: Image.network(
+                                      NewsCubit.get(context)
+                                          .newsModel!
+                                          .data![index]
+                                          .imageUrl
+                                          .toString(),
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
-                                )
-                              ],
+                                  Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                              " ${NewsCubit.get(context).newsModel!.data![index].title}",
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 25,
+                                                  fontWeight: FontWeight.w600)),
+                                          Container(
+                                            margin: EdgeInsets.only(
+                                                top: 10, right: 10),
+                                            decoration: BoxDecoration(
+                                                color: Colors.orange,
+                                                borderRadius:
+                                                    BorderRadius.circular(11)),
+                                            child: IntrinsicHeight(
+                                              child: Row(
+                                                children: [
+                                                  Container(
+                                                    child: IconButton(
+                                                        onPressed: () {},
+                                                        icon: Icon(
+                                                          Icons.share_outlined,
+                                                          color: Colors.white,
+                                                        )),
+                                                  ),
+                                                  VerticalDivider(
+                                                    indent: 7,
+                                                    endIndent: 7,
+                                                    color: Colors.white,
+                                                    thickness: 1,
+                                                  ),
+                                                  Container(
+                                                    child: IconButton(
+                                                      onPressed: () {},
+                                                      icon: Icon(
+                                                        Icons.copy_rounded,
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(top: 60),
+                                        padding:
+                                            EdgeInsets.only(left: 5, right: 5),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: [
+                                            Flexible(
+                                              child: Container(
+                                                // padding: new EdgeInsets.only(right: 2.0),
+
+                                                child: Text(
+                                                  "${NewsCubit.get(context).newsModel!.data![index].body}",
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.w600),
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.only(
+                                                  top: 25, right: 5),
+                                              child: Text(
+                                                "${NewsCubit.get(context).newsModel!.data![index].date}",
+                                                style: const TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 15,
+                                                    fontWeight:
+                                                        FontWeight.w400),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
                       ],
                     ),
-                    Container(
-                      margin: EdgeInsets.only(top: 50, bottom: 70),
-                      child: Row(
-                        children: const [
-                          Text(
-                            "Orange",
-                            style: TextStyle(
-                                color: appColor,
-                                fontSize: 45,
-                                fontWeight: FontWeight.w600),
-                          ),
-                          Text(" Digital Center",
-
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 46,
-                                  fontWeight: FontWeight.w600)),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      alignment: AlignmentDirectional.centerStart,
-                      margin: EdgeInsets.only(bottom: 5),
-                      child: const Text("  ODC Supports All Universities",style:TextStyle(
-                          color: Colors.white ,
-                          fontSize: 22,
-                          fontWeight: FontWeight.w400),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
+                  ),
+          );
+        });
   }
 }
