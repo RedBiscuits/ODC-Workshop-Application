@@ -1,8 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:login/data/models/faq_model.dart';
-import 'package:login/data/models/terms_model.dart';
 import 'package:login/data/network/dio_helper.dart';
 import 'package:login/data/network/end_points.dart';
 import 'package:login/ui/screens/settings/faq/faq_state.dart';
@@ -18,14 +16,11 @@ class FaqCubit extends Cubit<FaqState> {
   FaQsModel? faqModel;
 
 
+
   Future getFaQs() async {
 
     emit(FaqGettingData());
 
-    EasyLoading.show(
-        status: 'loading...',
-        maskType: EasyLoadingMaskType.custom
-    );
 
 
     DioHelper.getData(
@@ -38,13 +33,11 @@ class FaqCubit extends Cubit<FaqState> {
           print(value.data);
           print("gaaaaaamed");
           emit(FaqGotData());
-          EasyLoading.dismiss();
         }
       },
     ).catchError((error){
       print(error.toString());
       emit(FaqGotDataFail());
-      EasyLoading.dismiss();
     });
   }
 }
